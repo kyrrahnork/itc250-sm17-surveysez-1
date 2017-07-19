@@ -29,48 +29,57 @@ if(isset($_GET['id']) && (int)$_GET['id'] > 0){#proper data must be on querystri
 	myRedirect(VIRTUAL_PATH . "surveys/index.php");
 }
 
-//sql statement to select individual item
-//$sql = "select MuffinName,Description,MetaDescription,MetaKeywords,Price from test_Muffins where MuffinID = " . $myID;
-$sql = "select Title, Description from sm17_surveys where SurveyID = " . $myID;
-//---end config area --------------------------------------------------
+$mySurvey = new Survey($myID);
 
-$foundRecord = FALSE; # Will change to true, if record found!
-   
-# connection comes first in mysqli (improved) function
-$result = mysqli_query(IDB::conn(),$sql) or die(trigger_error(mysqli_error(IDB::conn()), E_USER_ERROR));
-
-if(mysqli_num_rows($result) > 0)
-{#records exist - process
-	   $foundRecord = TRUE;	
-	   while ($row = mysqli_fetch_assoc($result))
-	   {
-			$Title = dbOut($row['Title']);
-			$Description = dbOut($row['Description']);
-	   }
-}
-
-@mysqli_free_result($result); # We're done with the data!
-
-if($foundRecord)
-{#only load data if record found
-	$config->titleTag = $Title . " surveys made with PHP & love!"; #overwrite PageTitle with Survey info!
+if($mySurvey->IsValid)
+{
+    $config->titleTag = $mySurvey->Title . " surveys made with love and PHP!";
 }
 # END CONFIG AREA ---------------------------------------------------------- 
 
 get_header(); #defaults to theme header or header_inc.php
-
-if($foundRecord)
+if($mySurvey->IsValid)
 {#records exist - show survey!
 	echo '
-    <h3 align="center">' . $Title . '</h3>
-    <p>' . $Description . '</p>';
+    <h3 align="center">' . $mySurvey->Title . '</h3>
+    <p>' . $mySurvey->Description . '</p>';
 
 }else{//no such survey!
     echo '<div align="center">What! No such survey? There must be a mistake!!</div>';
     echo '<div align="center"><a href="' . VIRTUAL_PATH . 'surveys/index.php">Back</a></div>';
 }
-
 echo '<div align="center"><a href="' . VIRTUAL_PATH . 'surveys/index.php">Back</a></div>';
 
 get_footer(); #defaults to theme footer or footer_inc.php
-?>
+
+class Survey
+{
+    public $SurveyID = 0;
+    public $Title = '';
+    public $Description = '';
+    public $IsValid = false;
+    
+    public function __construct($id)
+    {
+        $id = (int)$id;//cast to int disallows SQL injection
+        $sql = "select Title, Description from sm17_surveys where SurveyID = " . $id;
+        
+        # connection comes first in mysqli (improved) function
+        $result = mysqli_query(IDB::conn(),$sql) or die(trigger_error(mysqli_error(IDB::conn()), E_USER_ERROR));
+        
+        if(mysqli_num_rows($result) > 0)
+        {#records exist - process
+           $this->IsValid = true;///record found
+           while ($row = mysqli_fetch_assoc($result))
+           {
+                $this->Title = dbOut($row['Title']);
+                $this->Description = dbOut($row['Description']);
+           }
+        }
+
+        @mysqli_free_result($result); # We're done with the data!   
+    }// end Survey constructor
+     
+}// end Survey class
+
+
