@@ -1,0 +1,4 @@
+[Jul-19-2017 15:34:29] Undefined variable: IsValid in /home/kyrnor/kyrrahnork.com/sm17/surveys/survey_view.php on line 72
+[Jul-19-2017 15:36:14] Undefined variable: IsValid in /home/kyrnor/kyrrahnork.com/sm17/surveys/survey_view.php on line 72
+[Jul-19-2017 15:37:48] Undefined variable: IsValid in /home/kyrnor/kyrrahnork.com/sm17/surveys/survey_view.php on line 34
+[Jul-19-2017 15:37:52] Undefined variable: IsValid in /home/kyrnor/kyrrahnork.com/sm17/surveys/survey_view.php on line 34
