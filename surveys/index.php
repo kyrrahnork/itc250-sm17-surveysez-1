@@ -33,7 +33,7 @@ date_format(s.DateAdded, '%W %D %M %Y %H:%i') 'DateAdded' from "
 ";
 
 #Fills <title> tag. If left empty will default to $PageTitle in config_inc.php  
-$config->titleTag = 'Muffins made with love & PHP in Seattle';
+$config->titleTag = 'Surveys made with love & PHP in Seattle';
 
 #Fills <meta> tags.  Currently we're adding to the existing meta tags in config_inc.php
 $config->metaDescription = 'Seattle Central\'s ITC280 Class Muffins are made with pure PHP! ' . $config->metaDescription;
@@ -65,7 +65,7 @@ $prev = '<img src="' . VIRTUAL_PATH . 'images/arrow_prev.gif" border="0" />';
 $next = '<img src="' . VIRTUAL_PATH . 'images/arrow_next.gif" border="0" />';
 
 # Create instance of new 'pager' class
-$myPager = new Pager(2,'',$prev,$next,'');
+$myPager = new Pager(10,'',$prev,$next,'');
 $sql = $myPager->loadSQL($sql);  #load SQL, add offset
 
 # connection comes first in mysqli (improved) function
