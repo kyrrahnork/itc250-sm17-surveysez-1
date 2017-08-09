@@ -46,6 +46,8 @@ if($mySurvey->isValid)
 { #check to see if we have a valid SurveyID
 	echo '<p>' . $mySurvey->Description . '</p>';
 	echo $mySurvey->showQuestions();
+    //create response list here
+    echo SurveySez\MY_Survey::responseList($myID);
 }else{
 	echo "Sorry, no such survey!";	
 }
